@@ -44,9 +44,9 @@ func tornado_particles(is_emitting : bool = false):
 	if is_emitting:
 		current_tornado_particles += 0.02
 		current_tornado_particles = clamp(current_tornado_particles, 0, max_tornado_particles)
-		$GPUParticles3D.amount_ratio = current_tornado_particles
-		$GPUParticles3D.emitting = true
+		%DirtParticles.amount_ratio = current_tornado_particles
+		%DirtParticles.emitting = true
 		
 	else:
 		current_tornado_particles = 0
-		$GPUParticles3D.emitting = false
+		%DirtParticles.emitting = false

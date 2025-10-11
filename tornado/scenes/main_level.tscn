@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cdd7e0g0scoku"]
+[gd_scene load_steps=16 format=3 uid="uid://cdd7e0g0scoku"]
 
 [ext_resource type="Texture2D" uid="uid://dcid1sg2m3jg3" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_1K_albedo.jpg" id="1_v3uhd"]
 [ext_resource type="Texture2D" uid="uid://c40x1emhssnbc" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_512_normal.jpg" id="2_ufxs0"]
@@ -15,7 +15,29 @@ sky_material = SubResource("ProceduralSkyMaterial_6we3w")
 background_mode = 2
 sky = SubResource("Sky_qmak7")
 tonemap_mode = 2
-glow_enabled = true
+tonemap_exposure = 2.62
+tonemap_white = 16.0
+sdfgi_use_occlusion = true
+sdfgi_min_cell_size = 0.488281
+sdfgi_cascade0_distance = 31.25
+sdfgi_max_distance = 500.0
+sdfgi_y_scale = 0
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.624604, 0.527185, 0.478032, 1)
+fog_light_energy = 1.7
+fog_sun_scatter = 0.35
+fog_density = 1.0
+fog_aerial_perspective = 0.769
+fog_height = 27.09
+fog_height_density = 0.005
+fog_depth_curve = 2.46229
+fog_depth_end = 977.4
+volumetric_fog_density = 0.0005
+volumetric_fog_albedo = Color(0.836976, 0.668642, 0.585039, 1)
+volumetric_fog_length = 400.0
+volumetric_fog_ambient_inject = 4.88
+volumetric_fog_sky_affect = 0.0
 
 [sub_resource type="Gradient" id="Gradient_ynsf8"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -93,6 +115,9 @@ detiling_shift = 0.075
 mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_8ra5a")])
 texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_6we3w")])
 
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_6we3w"]
+auto_exposure_enabled = true
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -112,6 +137,7 @@ material = SubResource("Terrain3DMaterial_6we3w")
 assets = SubResource("Terrain3DAssets_bq26l")
 collision_mode = 3
 collision_shape_size = 32
+gi_mode = 2
 top_level = true
 metadata/_edit_lock_ = true
 
@@ -120,3 +146,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 43.6801, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Tornado"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90.0752, 213.473)
+attributes = SubResource("CameraAttributesPractical_6we3w")
