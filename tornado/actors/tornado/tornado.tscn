@@ -1,7 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://d3wh6fap33wt4"]
+[gd_scene load_steps=23 format=3 uid="uid://d3wh6fap33wt4"]
 
+[ext_resource type="Script" uid="uid://c1575pn7smn5d" path="res://actors/tornado/tornado.gd" id="1_7g7vn"]
 [ext_resource type="Texture2D" uid="uid://dcid1sg2m3jg3" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_1K_albedo.jpg" id="1_67h4e"]
 [ext_resource type="Texture2D" uid="uid://c40x1emhssnbc" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_512_normal.jpg" id="2_7g7vn"]
+
+[sub_resource type="Curve" id="Curve_h1kmd"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 100), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_hox5y"]
+width = 96
+curve = SubResource("Curve_h1kmd")
 
 [sub_resource type="Curve" id="Curve_1ubse"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.125442, 0.516618), -1.65323, -1.65323, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -18,12 +28,27 @@ point_count = 4
 texture_mode = 1
 curve = SubResource("Curve_hox5y")
 
+[sub_resource type="Curve" id="Curve_67h4e"]
+
 [sub_resource type="Curve" id="Curve_eglb6"]
 _data = [Vector2(0, 1), 0.0, 0.106885, 0, 0, Vector2(0.15371, 1), 0.0, 0.0, 0, 0, Vector2(0.545936, 1), 0.0, 0.0, 0, 0, Vector2(0.996467, 1), -0.0727002, 0.0, 0, 0]
 point_count = 4
 
+[sub_resource type="Curve" id="Curve_7g7vn"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0]
+point_count = 1
+
 [sub_resource type="CurveXYZTexture" id="CurveXYZTexture_7r18q"]
+curve_x = SubResource("Curve_67h4e")
 curve_y = SubResource("Curve_eglb6")
+curve_z = SubResource("Curve_7g7vn")
+
+[sub_resource type="Curve" id="Curve_84465"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_eglb6"]
+curve = SubResource("Curve_84465")
 
 [sub_resource type="Curve" id="Curve_40kwc"]
 _data = [Vector2(0, 0), 0.0, 21.9393, 0, 0, Vector2(0.134276, 1), 0.129469, 0.129469, 0, 0, Vector2(1, 0), -1.34864, 0.0, 0, 0]
@@ -54,10 +79,13 @@ directional_velocity_curve = SubResource("CurveXYZTexture_h1kmd")
 orbit_velocity_min = 0.0110001
 orbit_velocity_max = 2.0
 orbit_velocity_curve = SubResource("CurveXYZTexture_7r18q")
-radial_velocity_min = -2.23517e-05
-radial_velocity_max = 27.92
+radial_velocity_min = 0.999978
+radial_velocity_max = 86.69
+radial_velocity_curve = SubResource("CurveTexture_eglb6")
 gravity = Vector3(0, -8.87, 0)
 linear_accel_curve = SubResource("CurveTexture_84465")
+damping_max = 98.749
+damping_curve = SubResource("CurveTexture_hox5y")
 scale_min = 0.0
 scale_max = 2.9
 scale_curve = SubResource("CurveTexture_hy8sg")
@@ -94,17 +122,37 @@ material = SubResource("StandardMaterial3D_0c4gx")
 radial_segments = 16
 rings = 8
 
-[node name="Tornado" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7g7vn"]
+albedo_color = Color(0.33, 0.29304, 0.2508, 1)
+backlight_enabled = true
+backlight = Color(0.59, 0.51684, 0.4071, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7g7vn"]
+radius = 0.953463
+
+[node name="Tornado" type="VehicleBody3D"]
+lock_rotation = true
+script = ExtResource("1_7g7vn")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(0.941899, 0, 0.335895, 0, 1, 0, -0.335895, 0, 0.941899, -26.4477, -7.62939e-06, -39.0902)
-amount = 8000
-randomness = 0.2
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+amount = 15000
+lifetime = 5.0
+randomness = 1.0
 visibility_aabb = AABB(-50, -50, -50, 100, 100, 100)
 draw_order = 3
 process_material = SubResource("ParticleProcessMaterial_saxnr")
 draw_pass_1 = SubResource("SphereMesh_y73sw")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.46867, 0, 0.883373, 0, 1, 0, -0.883373, 0, 0.46867, 3.04347, 0, 1.27167)
-current = true
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 146, 0)
+gi_mode = 2
+radius = 40.998
+height = 285.892
+sides = 13
+cone = true
+material = SubResource("StandardMaterial3D_7g7vn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.985443, 0)
+shape = SubResource("SphereShape3D_7g7vn")

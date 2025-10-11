@@ -1,7 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://cdd7e0g0scoku"]
+[gd_scene load_steps=15 format=3 uid="uid://cdd7e0g0scoku"]
 
 [ext_resource type="Texture2D" uid="uid://dcid1sg2m3jg3" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_1K_albedo.jpg" id="1_v3uhd"]
 [ext_resource type="Texture2D" uid="uid://c40x1emhssnbc" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_512_normal.jpg" id="2_ufxs0"]
+[ext_resource type="PackedScene" uid="uid://d3wh6fap33wt4" path="res://actors/tornado/tornado.tscn" id="3_6we3w"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6we3w"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_qmak7"]
+sky_material = SubResource("ProceduralSkyMaterial_6we3w")
+
+[sub_resource type="Environment" id="Environment_8ra5a"]
+background_mode = 2
+sky = SubResource("Sky_qmak7")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="Gradient" id="Gradient_ynsf8"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -81,9 +95,28 @@ texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_
 
 [node name="Node3D" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8ra5a")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+shadow_blur = 3.795
+directional_shadow_blend_splits = true
+directional_shadow_fade_start = 1.0
+directional_shadow_max_distance = 1018.6
+
 [node name="Terrain3D" type="Terrain3D" parent="."]
 data_directory = "res://scenes/terrain"
 material = SubResource("Terrain3DMaterial_6we3w")
 assets = SubResource("Terrain3DAssets_bq26l")
+collision_mode = 3
+collision_shape_size = 32
 top_level = true
 metadata/_edit_lock_ = true
+
+[node name="Tornado" parent="." instance=ExtResource("3_6we3w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 43.6801, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Tornado"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90.0752, 213.473)
