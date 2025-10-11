@@ -130,8 +130,11 @@ backlight = Color(0.59, 0.51684, 0.4071, 1)
 [sub_resource type="SphereShape3D" id="SphereShape3D_7g7vn"]
 radius = 0.953463
 
-[node name="Tornado" type="VehicleBody3D"]
-lock_rotation = true
+[node name="Tornado" type="CharacterBody3D"]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+floor_constant_speed = true
+floor_block_on_wall = false
 script = ExtResource("1_7g7vn")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
@@ -144,7 +147,7 @@ draw_order = 3
 process_material = SubResource("ParticleProcessMaterial_saxnr")
 draw_pass_1 = SubResource("SphereMesh_y73sw")
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+[node name="TornadoMesh" type="CSGCylinder3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 146, 0)
 gi_mode = 2
 radius = 40.998
