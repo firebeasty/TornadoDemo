@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d3wh6fap33wt4"]
+[gd_scene load_steps=25 format=3 uid="uid://d3wh6fap33wt4"]
 
 [ext_resource type="Script" uid="uid://c1575pn7smn5d" path="res://actors/tornado/tornado.gd" id="1_7g7vn"]
 [ext_resource type="Texture2D" uid="uid://dcid1sg2m3jg3" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_1K_albedo.jpg" id="1_67h4e"]
@@ -89,6 +89,8 @@ damping_curve = SubResource("CurveTexture_hox5y")
 scale_min = 0.0
 scale_max = 2.9
 scale_curve = SubResource("CurveTexture_hy8sg")
+hue_variation_min = -2.23517e-08
+hue_variation_max = 0.36
 turbulence_enabled = true
 turbulence_noise_scale = 6.61
 turbulence_noise_speed_random = 0.72
@@ -98,8 +100,10 @@ turbulence_initial_displacement_min = 1.49012e-06
 turbulence_initial_displacement_max = 1.49012e-06
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0c4gx"]
-diffuse_mode = 1
-albedo_color = Color(0.790512, 0.845905, 0.926094, 1)
+transparency = 4
+diffuse_mode = 2
+specular_mode = 2
+albedo_color = Color(0.7905, 0.848625, 0.93, 0.407843)
 albedo_texture = ExtResource("1_67h4e")
 emission_energy_multiplier = 0.17
 emission_texture = ExtResource("1_67h4e")
@@ -113,39 +117,69 @@ backlight = Color(0.6, 0.468, 0.36, 1)
 uv1_scale = Vector3(0.12, 0.12, 0.12)
 uv1_triplanar = true
 uv1_triplanar_sharpness = 1.7411
-uv1_world_triplanar = true
-disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+grow = true
+grow_amount = 1.915
 point_size = 2.0
+proximity_fade_distance = 0.01
+distance_fade_mode = 1
+distance_fade_min_distance = 1.0
+distance_fade_max_distance = 5.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_y73sw"]
 material = SubResource("StandardMaterial3D_0c4gx")
-radial_segments = 16
-rings = 8
+radial_segments = 8
+rings = 4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7g7vn"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+cull_mode = 2
+depth_draw_mode = 1
 albedo_color = Color(0.33, 0.29304, 0.2508, 1)
 backlight_enabled = true
 backlight = Color(0.59, 0.51684, 0.4071, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 2.0
+distance_fade_max_distance = 20.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_7g7vn"]
-radius = 0.953463
+margin = 0.05
+radius = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7g7vn"]
+frequency = 0.0925
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_1ubse"]
+noise = SubResource("FastNoiseLite_7g7vn")
 
 [node name="Tornado" type="CharacterBody3D"]
 axis_lock_angular_x = true
 axis_lock_angular_z = true
+wall_min_slide_angle = 3.14159
+floor_stop_on_slope = false
 floor_constant_speed = true
 floor_block_on_wall = false
 script = ExtResource("1_7g7vn")
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="DirtParticles" type="GPUParticles3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-amount = 15000
+emitting = false
+amount = 8000
 lifetime = 5.0
 randomness = 1.0
+fixed_fps = 60
 visibility_aabb = AABB(-50, -50, -50, 100, 100, 100)
 draw_order = 3
 process_material = SubResource("ParticleProcessMaterial_saxnr")
 draw_pass_1 = SubResource("SphereMesh_y73sw")
+metadata/_edit_lock_ = true
 
 [node name="TornadoMesh" type="CSGCylinder3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 146, 0)
@@ -159,3 +193,19 @@ material = SubResource("StandardMaterial3D_7g7vn")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.985443, 0)
 shape = SubResource("SphereShape3D_7g7vn")
+
+[node name="GPUParticlesAttractorVectorField3D" type="GPUParticlesAttractorVectorField3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 39.424, 6.46749e-07)
+strength = 500.0
+attenuation = 0.482967
+directionality = 0.2
+size = Vector3(200, 25.85, 200)
+texture = SubResource("NoiseTexture3D_1ubse")
+
+[node name="GPUParticlesAttractorVectorField3D2" type="GPUParticlesAttractorVectorField3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 184.563, 0)
+strength = 500.0
+attenuation = 0.00352051
+directionality = 0.45
+size = Vector3(300, 300, 300)
+texture = SubResource("NoiseTexture3D_1ubse")
