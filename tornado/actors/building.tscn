@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://7gtbqvnn8p6d"]
+
+[node name="Building" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+size = Vector3(10, 5, 10)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGBox3D"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 3.44349, 0)
+radius = 8.559
+height = 2.438
+sides = 4
+cone = true

@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://cdd7e0g0scoku"]
+[gd_scene load_steps=17 format=3 uid="uid://cdd7e0g0scoku"]
 
 [ext_resource type="Texture2D" uid="uid://dcid1sg2m3jg3" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_1K_albedo.jpg" id="1_v3uhd"]
 [ext_resource type="Texture2D" uid="uid://c40x1emhssnbc" path="res://scenes/tex/TCom_Ground_RockBedSandstone_2x2_512_normal.jpg" id="2_ufxs0"]
 [ext_resource type="PackedScene" uid="uid://d3wh6fap33wt4" path="res://actors/tornado/tornado.tscn" id="3_6we3w"]
+[ext_resource type="PackedScene" uid="uid://7gtbqvnn8p6d" path="res://actors/building.tscn" id="4_qmak7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6we3w"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -116,7 +117,13 @@ mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_8ra5a")])
 texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_6we3w")])
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_6we3w"]
-auto_exposure_enabled = true
+dof_blur_far_enabled = true
+dof_blur_far_distance = 200.0
+dof_blur_far_transition = 333.73
+dof_blur_near_enabled = true
+dof_blur_near_distance = 200.0
+dof_blur_near_transition = 50.0
+dof_blur_amount = 0.05
 
 [node name="Node3D" type="Node3D"]
 
@@ -147,3 +154,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 43.6801, 0)
 [node name="Camera3D" type="Camera3D" parent="Tornado"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 90.0752, 213.473)
 attributes = SubResource("CameraAttributesPractical_6we3w")
+
+[node name="Building" parent="." instance=ExtResource("4_qmak7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 151.334, -10.2913, 84.9841)
